@@ -109,7 +109,7 @@ def load_config(json_file, model_name):
 
 
 def run_inference(model_name):
-    config = load_config("data/model_config.json", model_name)
+    config = load_config("data/model_config_x5.json", model_name)
 
     # Define paths
     model_path = config["model_path"]
