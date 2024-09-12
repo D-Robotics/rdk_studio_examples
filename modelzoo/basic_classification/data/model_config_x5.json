@@ -18,31 +18,31 @@
         "img_save_path": "output/Scottish_deerhound.JPEG"
     },
     "mobilenetv4": {
-        "model_path": "../.model_zoo/demos/classification/MobileNetV4/model/MobileNetV4_224x224_nv12.bin",
+        "model_path": "~/.model_zoo/demos/classification/MobileNetV4/model/MobileNetV4_conv_small_224x224_nv12.bin",
         "labels_path": "data/ImageNet_1k.json",
-        "img_path": "../.model_zoo/demos/classification/MobileNetV4/data/great_grey_owl.JPEG",
+        "img_path": "~/.model_zoo/demos/classification/MobileNetV4/data/great_grey_owl.JPEG",
         "img_save_path": "output/great_grey_owl_show.JPEG"
     },
     "mobileone": {
-        "model_path": "../.model_zoo/demos/classification/MobileOne/model/MobileOne_224x224_nv12.bin",
+        "model_path": "../.model_zoo/demos/classification/MobileOne/model/MobileOne_S1_224x224_nv12.bin",
         "labels_path": "data/ImageNet_1k.json",
         "img_path": "../.model_zoo/demos/classification/MobileOne/data/tiger_beetle.JPEG",
         "img_save_path": "output/tiger_beetle.JPEG"
     },
     "repghost": {
-        "model_path": "../.model_zoo/demos/classification/RepGhost/model/RepGhost_224x224_nv12.bin",
+        "model_path": "../.model_zoo/demos/classification/RepGhost/model/RepGhost_100_224x224_nv12.bin",
         "labels_path": "data/ImageNet_1k.json",
         "img_path": "../.model_zoo/demos/classification/RepGhost/data/ibex.JPEG",
         "img_save_path": "output/ibex.JPEG"
     },
     "repvgg": {
-        "model_path": "../.model_zoo/demos/classification/RepVGG/model/RepVGG_224x224_nv12.bin",
+        "model_path": "../.model_zoo/demos/classification/RepVGG/model/RepVGG_A1_224x224_nv12.bin",
         "labels_path": "data/ImageNet_1k.json",
         "img_path": "../.model_zoo/demos/classification/RepVGG/data/gooze.JPEG",
         "img_save_path": "output/gooze.JPEG"
     },
     "repvit": {
-        "model_path": "../.model_zoo/demos/classification/RepViT/model/RepViT_224x224_nv12.bin",
+        "model_path": "../.model_zoo/demos/classification/RepViT/model/RepViT_m1_0_224x224_nv12.bin",
         "labels_path": "data/ImageNet_1k.json",
         "img_path": "../.model_zoo/demos/classification/RepViT/data/yurt.JPEG",
         "img_save_path": "output/yurt.JPEG"
