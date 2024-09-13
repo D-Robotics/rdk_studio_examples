@@ -2,13 +2,14 @@ import numpy as np
 import bpu_infer_lib
 import cv2
 import json
+import os
 
 
 class ModelInference:
     def __init__(self, model_path, labels_path, img_path):
-        self.model_path = model_path
-        self.labels_path = labels_path
-        self.img_path = img_path
+        self.model_path = os.path.expanduser(model_path)
+        self.labels_path = os.path.expanduser(labels_path)
+        self.img_path = os.path.expanduser(img_path)
         self.infer_obj = bpu_infer_lib.Infer(False)
         self.load_model()
         self.labels = self.load_labels()
@@ -112,10 +113,10 @@ def run_inference(model_name):
     config = load_config("data/model_config_x3.json", model_name)
 
     # Define paths
-    model_path = config["model_path"]
-    labels_path = config["labels_path"]
-    img_path = config["img_path"]
-    img_save_path = config["img_save_path"]
+    model_path = os.path.expanduser(config["model_path"])
+    labels_path = os.path.expanduser(config["labels_path"])
+    img_path = os.path.expanduser(config["img_path"])
+    img_save_path = os.path.expanduser(config["img_save_path"])
 
     # Create inference object
     model_infer = ModelInference(model_path, labels_path, img_path)
@@ -128,19 +129,18 @@ def run_inference(model_name):
     max_ind, probs = model_infer.postprocess(logits)
     image_with_text = model_infer.annotate_image(max_ind, probs)
     model_infer.visualize(image_with_text, save_path=img_save_path)
-    # print(f"Predicted Label: {model_infer.labels[max_ind]}, Confidence: {probs[max_ind]:.4f}")
     
-    return model_infer.labels[max_ind], probs[max_ind]
+    return model_infer.labels[max_ind], probs[max_ind], image_with_text
 
 
 def run_inference_tf(model_name):
-    config = load_config("data/model_config.json", model_name)
+    config = load_config("data/model_config_x3.json", model_name)
 
     # Define paths
-    model_path = config["model_path"]
-    labels_path = config["labels_path"]
-    img_path = config["img_path"]
-    img_save_path = config["img_save_path"]
+    model_path = os.path.expanduser(config["model_path"])
+    labels_path = os.path.expanduser(config["labels_path"])
+    img_path = os.path.expanduser(config["img_path"])
+    img_save_path = os.path.expanduser(config["img_save_path"])
 
     # Create inference object
     model_infer = ModelInference(model_path, labels_path, img_path)
@@ -154,7 +154,7 @@ def run_inference_tf(model_name):
     image_with_text = model_infer.annotate_image_tf(max_ind, probs)
     model_infer.visualize(image_with_text, save_path=img_save_path)
     
-    return model_infer.labels[max_ind], probs
+    return model_infer.labels[max_ind], probs, image_with_text
 
 
 if __name__ == "__main__":
