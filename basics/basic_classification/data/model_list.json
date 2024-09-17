@@ -1,0 +1,38 @@
+{   
+    "googlenet": {
+        "model_path": "/app/model/basic/googlenet_224x224_nv12.bin",
+        "labels_path": "data/ImageNet_1k.json",
+        "img_path": "/app/pydev_demo/01_basic_sample/zebra_cls.jpg",
+        "img_save_path": "output/zebra_cls-googlenet.JPEG"
+    },
+    "mobilenetv1": {
+        "model_path": "/app/model/basic/mobilenetv1_224x224_nv12.bin",
+        "labels_path": "data/ImageNet_1k.json",
+        "img_path": "/app/pydev_demo/01_basic_sample/zebra_cls.jpg",
+        "img_save_path": "output/zebra_cls-mobilenetv1.JPEG"
+    },
+    "mobilenetv2": {
+        "model_path": "/app/model/basic/mobilenetv2_224x224_nv12.bin",
+        "labels_path": "data/ImageNet_1k.json",
+        "img_path": "/app/pydev_demo/01_basic_sample/zebra_cls.jpg",
+        "img_save_path": "output/zebra_cls-mobilenetv2.JPEG"
+    },
+    "resnet": {
+        "model_path": "/app/model/basic/resnet18_224x224_nv12.bin",
+        "labels_path": "data/ImageNet_1k.json",
+        "img_path": "/app/pydev_demo/01_basic_sample/zebra_cls.jpg",
+        "img_save_path": "output/zebra_cls-resnet.JPEG"
+    },
+    "vargconvnet": {
+        "model_path": "/app/model/basic/vargconvnet_224x224_nv12.bin",
+        "labels_path": "data/ImageNet_1k.json",
+        "img_path": "/app/pydev_demo/01_basic_sample/zebra_cls.jpg",
+        "img_save_path": "output/zebra_cls-vargconvnet.JPEG"
+    },
+    "efficientnet_lite0": {
+        "model_path": "/app/model/basic/efficientnet_lite0_224x224_nv12.bin",
+        "labels_path": "data/ImageNet_1k.json",
+        "img_path": "/app/pydev_demo/01_basic_sample/zebra_cls.jpg",
+        "img_save_path": "output/zebra_cls-efficientnet_lite0.JPEG"
+    }
+}
