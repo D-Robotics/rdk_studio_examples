@@ -1,0 +1,460 @@
+[
+    {
+        "id": "457de02915706ef6",
+        "type": "tab",
+        "label": "RDKAudioCommand",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ca08472e5d7a2a12",
+        "type": "ui-template",
+        "z": "457de02915706ef6",
+        "group": "98de43d2a857c3b4",
+        "page": "",
+        "ui": "",
+        "name": "录音机",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "head": "",
+        "format": "<template>\n    <div>\n        <v-btn @mousedown=\"startRecord()\"\n               @mouseup=\"stopRecord()\">{{ recordText }}</v-btn>\n\n        <audio></audio>\n        <br>\n    </div>\n</template>\n\n<script>\n    export default {\n        data() {\n            // define variables available component-wide\n            // (in <template> and component functions)\n            return {\n                count: 0,\n                recordText: '按下录音',\n                recorder: undefined,\n            }\n        },\n        watch: {\n            \n        },\n        computed: {\n            \n        },\n        methods: {\n            // expose a method to our <template> and Vue Application\n            startRecord: function() {\n                this.send({\n                    cmd: 'start'\n                })\n\n                if(this.audioStream){\n                    this.recordText = \"录音中...\"\n\n                    const mediaRecorder = new MediaRecorder(this.audioStream);\n                    this.recorder = mediaRecorder;\n                    let audioChunks = [];\n                    mediaRecorder.ondataavailable = (event) => {\n                        audioChunks.push(event.data);\n                    };\n                    mediaRecorder.onstop = () => {\n                        const audioBlob = new Blob(audioChunks, { type: \"audio/wav\" });\n                        let reader = new FileReader();\n                        reader.readAsDataURL(audioBlob);\n                        reader.onloadend = () => {\n                        let base64Audio = reader.result.split(',')[1]; // 获取Base64数据\n                            // this.send({ payload: base64Audio, format: \"audio/wav\" });\n                        };\n                        const dataUrl = window.URL.createObjectURL(audioBlob);\n                        this.send({\n                            payload: dataUrl\n                        })\n                        // this.send({\n                        //     payload: audioBlob\n                        // })\n                        audioChunks = [];\n                    };\n                    mediaRecorder.start();\n                }\n                else{\n                    this.recordText = \"录音失败\"\n                }\n            },\n            stopRecord: function() {\n                this.send({\n                    cmd: 'stop'\n                })\n\n                if(this.recorder){\n                    this.recorder.stop();\n                    this.recorder = undefined;\n                }\n                this.recordText = \"按下录音\"\n            }\n        },\n        mounted() {\n            // code here when the component is first loaded\n            this.audioStream = unmounted;\n            navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {\n                this.audioStream = stream;\n            })\n            .catch((e) => {\n                alert('该示例需要使用麦克风权限')\n            })\n            \n\n        },\n        unmounted() {\n            // code here when the component is removed from the Dashboard\n            // i.e. when the user navigates away from the page\n        }\n    }\n</script>\n<style>\n    /* define any styles here - supports raw CSS */\n    .my-class {\n        color: red;\n    }\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 150,
+        "y": 140,
+        "wires": [
+            [
+                "c14d1f6f275a6fb5",
+                "e5e86217f7d8c789"
+            ]
+        ]
+    },
+    {
+        "id": "68633b734a56fc12",
+        "type": "rdk-tools openurl",
+        "z": "457de02915706ef6",
+        "name": "",
+        "x": 340,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "817210a86f753dd6",
+        "type": "inject",
+        "z": "457de02915706ef6",
+        "name": "打开录音面板",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "https://{host}:1880/dashboard",
+        "payloadType": "str",
+        "x": 150,
+        "y": 80,
+        "wires": [
+            [
+                "68633b734a56fc12"
+            ]
+        ]
+    },
+    {
+        "id": "c14d1f6f275a6fb5",
+        "type": "ui-audio",
+        "z": "457de02915706ef6",
+        "group": "98de43d2a857c3b4",
+        "name": "",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "src": "",
+        "autoplay": "off",
+        "loop": "off",
+        "muted": "off",
+        "x": 340,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e5e86217f7d8c789",
+        "type": "ui-template",
+        "z": "457de02915706ef6",
+        "group": "1ceccad6de56cef6",
+        "page": "",
+        "ui": "",
+        "name": "语音识别",
+        "order": 0,
+        "width": 0,
+        "height": 2,
+        "head": "",
+        "format": "<template>\n    <div>\n        <p>{{ audioText }}</p>\n    </div>\n</template>\n\n<script>\n    export default {\n        data() {\n            // define variables available component-wide\n            // (in <template> and component functions)\n            return {\n                count: 0,\n                audioText: '',\n                audioRecgonition: undefined,\n                recognizeStatus: false,\n                stopStatus: false,\n            }\n        },\n        watch: {\n            // watch for any changes of \"count\"\n            msg: function(){\n                // if(this.msg?.payload){\n                //     fetch(this.msg.payload).then((res) => {\n                //         if(res.ok){\n                //             return true;\n                //         }\n                //         else{\n                //             return false;\n                //         }\n                //     }).catch(() => {\n                //         return false;\n                //     })\n                //     .then((isValid) => {\n                //         if(isValid){\n                //             this.recgonizeAudio();\n                //         }\n                //     })\n                // }\n\n                if(this.msg?.cmd){\n                    if(this.msg.cmd === 'start' && this.recognizeStatus === false){\n                        //start\n                        this.startRecognize();\n                    }\n                    else if(this.msg.cmd === 'stop' && this.recognizeStatus === true && this.stopStatus === false){\n                        //stop\n                        this.stopRecognize();\n                    }\n                }\n            }\n        },\n        computed: {\n            // automatically compute this variable\n            // whenever VueJS deems appropriate\n            \n        },\n        methods: {\n            // expose a method to our <template> and Vue Application\n            startRecognize: function () {\n                this.audioRecognition.start(); // 重新开启识别\n                this.recognizeStatus = true;\n            },\n\n            stopRecognize: function () {\n                this.stopStatus = true;\n                setTimeout(() => {\n                    this.audioRecognition.stop();\n                    this.recognizeStatus = false;\n                    this.stopStatus = false;\n                    this.send({\n                        payload: this.audioText\n                    })\n                }, 1000)\n                \n            }\n        },\n        mounted() {\n            // code here when the component is first loaded\n            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();\n            recognition.lang = 'zh-CN'; // 设置语言为中文\n            recognition.interimResults = true; // 返回临时结果\n            recognition.continuous = false; // 单次识别\n            // 处理识别结果\n            recognition.onresult = (event) => {\n                const transcript = event.results[0][0].transcript;\n                this.audioText = transcript;\n            };\n            // 处理识别结束\n            recognition.onend = () => {\n                console.log('recgonize finished')\n            };\n\n            this.audioRecognition = recognition;\n        },\n        unmounted() {\n            // code here when the component is removed from the Dashboard\n            // i.e. when the user navigates away from the page\n        }\n    }\n</script>\n<style>\n    /* define any styles here - supports raw CSS */\n    .my-class {\n        color: red;\n    }\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 340,
+        "y": 200,
+        "wires": [
+            [
+                "47d4cd729dd9c369"
+            ]
+        ]
+    },
+    {
+        "id": "47d4cd729dd9c369",
+        "type": "switch",
+        "z": "457de02915706ef6",
+        "name": "过滤“开启”关键词",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "打开",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "开启",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "点亮",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "启动",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "开开",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 6,
+        "x": 370,
+        "y": 280,
+        "wires": [
+            [
+                "24c476053f5b08e5",
+                "f24e5d2a89c16363"
+            ],
+            [
+                "24c476053f5b08e5",
+                "f24e5d2a89c16363"
+            ],
+            [
+                "24c476053f5b08e5",
+                "f24e5d2a89c16363"
+            ],
+            [
+                "24c476053f5b08e5",
+                "f24e5d2a89c16363"
+            ],
+            [
+                "24c476053f5b08e5",
+                "f24e5d2a89c16363"
+            ],
+            [
+                "71e6d2810c16ce4e"
+            ]
+        ]
+    },
+    {
+        "id": "71e6d2810c16ce4e",
+        "type": "switch",
+        "z": "457de02915706ef6",
+        "name": "过滤“关闭”关键词",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "关闭",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "关上",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "停止",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "熄灭",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 470,
+        "y": 380,
+        "wires": [
+            [
+                "14e9ddb214b4f3ce",
+                "b116a617abf58589"
+            ],
+            [
+                "14e9ddb214b4f3ce",
+                "b116a617abf58589"
+            ],
+            [
+                "14e9ddb214b4f3ce",
+                "b116a617abf58589"
+            ],
+            [
+                "14e9ddb214b4f3ce",
+                "b116a617abf58589"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "24c476053f5b08e5",
+        "type": "change",
+        "z": "457de02915706ef6",
+        "name": "模拟“开启”设备",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "模拟开启",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 600,
+        "y": 140,
+        "wires": [
+            [
+                "82290cbabbb9ccc2"
+            ]
+        ]
+    },
+    {
+        "id": "14e9ddb214b4f3ce",
+        "type": "change",
+        "z": "457de02915706ef6",
+        "name": "模拟“关闭”设备",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "模拟关闭",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 200,
+        "wires": [
+            [
+                "82290cbabbb9ccc2"
+            ]
+        ]
+    },
+    {
+        "id": "82290cbabbb9ccc2",
+        "type": "rdk-tools texttoaudio",
+        "z": "457de02915706ef6",
+        "name": "",
+        "x": 850,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "f24e5d2a89c16363",
+        "type": "change",
+        "z": "457de02915706ef6",
+        "name": "设置“1”",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 680,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b116a617abf58589",
+        "type": "change",
+        "z": "457de02915706ef6",
+        "name": "设置“0”",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 680,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "98de43d2a857c3b4",
+        "type": "ui-group",
+        "name": "语音输入",
+        "page": "5459ff18b063d634",
+        "width": 6,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "1ceccad6de56cef6",
+        "type": "ui-group",
+        "name": "语音回放&识别",
+        "page": "5459ff18b063d634",
+        "width": 6,
+        "height": "2",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "5459ff18b063d634",
+        "type": "ui-page",
+        "name": "Page 1",
+        "ui": "942009bed591a42b",
+        "path": "/page1",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "cccf934df78f2f5b",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "942009bed591a42b",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true
+    },
+    {
+        "id": "cccf934df78f2f5b",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    }
+]
