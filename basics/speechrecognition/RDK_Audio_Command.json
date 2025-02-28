@@ -1,6 +1,6 @@
 [
     {
-        "id": "457de02915706ef6",
+        "id": "aa17c41936b95d28",
         "type": "tab",
         "label": "RDKAudioCommand",
         "disabled": false,
@@ -8,9 +8,9 @@
         "env": []
     },
     {
-        "id": "ca08472e5d7a2a12",
+        "id": "24180d990c30a4e3",
         "type": "ui-template",
-        "z": "457de02915706ef6",
+        "z": "aa17c41936b95d28",
         "group": "98de43d2a857c3b4",
         "page": "",
         "ui": "",
@@ -29,24 +29,24 @@
         "y": 140,
         "wires": [
             [
-                "c14d1f6f275a6fb5",
-                "e5e86217f7d8c789"
+                "cae1fcdadae74c5c",
+                "7a2ee25e21147ab5"
             ]
         ]
     },
     {
-        "id": "68633b734a56fc12",
+        "id": "f9261ce2ec889c4a",
         "type": "rdk-tools openurl",
-        "z": "457de02915706ef6",
+        "z": "aa17c41936b95d28",
         "name": "",
         "x": 340,
         "y": 80,
         "wires": []
     },
     {
-        "id": "817210a86f753dd6",
+        "id": "a76b1646b87b5393",
         "type": "inject",
-        "z": "457de02915706ef6",
+        "z": "aa17c41936b95d28",
         "name": "打开录音面板",
         "props": [
             {
@@ -68,14 +68,14 @@
         "y": 80,
         "wires": [
             [
-                "68633b734a56fc12"
+                "f9261ce2ec889c4a"
             ]
         ]
     },
     {
-        "id": "c14d1f6f275a6fb5",
+        "id": "cae1fcdadae74c5c",
         "type": "ui-audio",
-        "z": "457de02915706ef6",
+        "z": "aa17c41936b95d28",
         "group": "98de43d2a857c3b4",
         "name": "",
         "order": 2,
@@ -92,10 +92,10 @@
         ]
     },
     {
-        "id": "e5e86217f7d8c789",
+        "id": "7a2ee25e21147ab5",
         "type": "ui-template",
-        "z": "457de02915706ef6",
-        "group": "1ceccad6de56cef6",
+        "z": "aa17c41936b95d28",
+        "group": "6392cffaf824a5fa",
         "page": "",
         "ui": "",
         "name": "语音识别",
@@ -113,14 +113,14 @@
         "y": 200,
         "wires": [
             [
-                "47d4cd729dd9c369"
+                "972d93ff744a72ee"
             ]
         ]
     },
     {
-        "id": "47d4cd729dd9c369",
+        "id": "972d93ff744a72ee",
         "type": "switch",
-        "z": "457de02915706ef6",
+        "z": "aa17c41936b95d28",
         "name": "过滤“开启”关键词",
         "property": "payload",
         "propertyType": "msg",
@@ -161,34 +161,34 @@
         "y": 280,
         "wires": [
             [
-                "24c476053f5b08e5",
-                "f24e5d2a89c16363"
+                "f2336b3d3b66b5f2",
+                "56b2c4df73e0e90d"
             ],
             [
-                "24c476053f5b08e5",
-                "f24e5d2a89c16363"
+                "f2336b3d3b66b5f2",
+                "56b2c4df73e0e90d"
             ],
             [
-                "24c476053f5b08e5",
-                "f24e5d2a89c16363"
+                "f2336b3d3b66b5f2",
+                "56b2c4df73e0e90d"
             ],
             [
-                "24c476053f5b08e5",
-                "f24e5d2a89c16363"
+                "f2336b3d3b66b5f2",
+                "56b2c4df73e0e90d"
             ],
             [
-                "24c476053f5b08e5",
-                "f24e5d2a89c16363"
+                "f2336b3d3b66b5f2",
+                "56b2c4df73e0e90d"
             ],
             [
-                "71e6d2810c16ce4e"
+                "9c24c566c597ba27"
             ]
         ]
     },
     {
-        "id": "71e6d2810c16ce4e",
+        "id": "9c24c566c597ba27",
         "type": "switch",
-        "z": "457de02915706ef6",
+        "z": "aa17c41936b95d28",
         "name": "过滤“关闭”关键词",
         "property": "payload",
         "propertyType": "msg",
@@ -224,28 +224,28 @@
         "y": 380,
         "wires": [
             [
-                "14e9ddb214b4f3ce",
-                "b116a617abf58589"
+                "c2c3a1306c241736",
+                "2785c6fd87af3145"
             ],
             [
-                "14e9ddb214b4f3ce",
-                "b116a617abf58589"
+                "c2c3a1306c241736",
+                "2785c6fd87af3145"
             ],
             [
-                "14e9ddb214b4f3ce",
-                "b116a617abf58589"
+                "c2c3a1306c241736",
+                "2785c6fd87af3145"
             ],
             [
-                "14e9ddb214b4f3ce",
-                "b116a617abf58589"
+                "c2c3a1306c241736",
+                "2785c6fd87af3145"
             ],
             []
         ]
     },
     {
-        "id": "24c476053f5b08e5",
+        "id": "f2336b3d3b66b5f2",
         "type": "change",
-        "z": "457de02915706ef6",
+        "z": "aa17c41936b95d28",
         "name": "模拟“开启”设备",
         "rules": [
             {
@@ -265,14 +265,14 @@
         "y": 140,
         "wires": [
             [
-                "82290cbabbb9ccc2"
+                "6cc19750413330ce"
             ]
         ]
     },
     {
-        "id": "14e9ddb214b4f3ce",
+        "id": "c2c3a1306c241736",
         "type": "change",
-        "z": "457de02915706ef6",
+        "z": "aa17c41936b95d28",
         "name": "模拟“关闭”设备",
         "rules": [
             {
@@ -292,23 +292,23 @@
         "y": 200,
         "wires": [
             [
-                "82290cbabbb9ccc2"
+                "6cc19750413330ce"
             ]
         ]
     },
     {
-        "id": "82290cbabbb9ccc2",
+        "id": "6cc19750413330ce",
         "type": "rdk-tools texttoaudio",
-        "z": "457de02915706ef6",
+        "z": "aa17c41936b95d28",
         "name": "",
         "x": 850,
         "y": 140,
         "wires": []
     },
     {
-        "id": "f24e5d2a89c16363",
+        "id": "56b2c4df73e0e90d",
         "type": "change",
-        "z": "457de02915706ef6",
+        "z": "aa17c41936b95d28",
         "name": "设置“1”",
         "rules": [
             {
@@ -331,9 +331,9 @@
         ]
     },
     {
-        "id": "b116a617abf58589",
+        "id": "2785c6fd87af3145",
         "type": "change",
-        "z": "457de02915706ef6",
+        "z": "aa17c41936b95d28",
         "name": "设置“0”",
         "rules": [
             {
@@ -356,6 +356,16 @@
         ]
     },
     {
+        "id": "46174bc11d06f632",
+        "type": "comment",
+        "z": "aa17c41936b95d28",
+        "name": "请点击右上角“从浏览器打开”按钮，使用效果更佳",
+        "info": "",
+        "x": 200,
+        "y": 40,
+        "wires": []
+    },
+    {
         "id": "98de43d2a857c3b4",
         "type": "ui-group",
         "name": "语音输入",
@@ -370,7 +380,7 @@
         "groupType": "default"
     },
     {
-        "id": "1ceccad6de56cef6",
+        "id": "6392cffaf824a5fa",
         "type": "ui-group",
         "name": "语音回放&识别",
         "page": "5459ff18b063d634",
@@ -386,7 +396,7 @@
     {
         "id": "5459ff18b063d634",
         "type": "ui-page",
-        "name": "Page 1",
+        "name": "语音识别 + Deep Seek",
         "ui": "942009bed591a42b",
         "path": "/page1",
         "icon": "home",
